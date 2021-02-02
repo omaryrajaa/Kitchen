@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-
+import { useAuth } from "../../context/auth";
+import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,12 +23,15 @@ const useStyles = makeStyles((theme) => ({
   rowStyle: {height: 50},
 }));
 
-export default function Menu() {
-  const catererId = 2;
+export default function Menu(props) {
+  const { authTokens, setAuthTokens } = useAuth();
+  const catererId = authTokens.id;
 
   const classes = useStyles();
 
   const { state, dispatch } = useApplicationData();
+  let history = useHistory();
+
 
   useEffect(() => {
     getTotalItems();
@@ -52,8 +57,27 @@ const getTotalTodayItems = async () => {
       dispatch({ type: SET_CATERER_ITEMS_TODAY_COUNT, catererItemsTodayCount: response.data.total});
 }
 
+const handleFullMenu = (event) => {
+  event.preventDefault();
+  if (catererId) {
+    history.push(`/full-menu`, {params: {catererId}})
+  }
+  else {
+    history.push('/login')
+  }
+ 
+}
 
-
+const handleTodayMenu = (event) => {
+  event.preventDefault();
+  if (catererId) {
+    history.push(`/today-menu`, {params: {catererId}})
+  }
+  else {
+    history.push('/login')
+  }
+ 
+}
 
 
   return (
@@ -67,7 +91,7 @@ const getTotalTodayItems = async () => {
               <TableCell></TableCell>
               <TableCell></TableCell>
               
-              <TableCell align="right"><a href="/today-menu">{state.catererItemsTodayCount}</a></TableCell>
+              <TableCell align="right"><Link onClick={(event) => handleTodayMenu(event)}>{state.catererItemsTodayCount}</Link></TableCell>
                
             </TableRow>
             <TableRow className={classes.rowStyle}>
@@ -76,7 +100,7 @@ const getTotalTodayItems = async () => {
               <TableCell></TableCell>
               <TableCell></TableCell>
               
-              <TableCell align="right"><a href="/full-menu">{state.catererItemsCount}</a></TableCell>
+              <TableCell align="right"><Link onClick={(event) => handleFullMenu(event)}>{state.catererItemsCount}</Link></TableCell>
               
               
             </TableRow>

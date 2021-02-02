@@ -118,7 +118,7 @@ export default function Dashboard() {
   const [open, setOpen] = useState(true);
   const { authTokens, setAuthTokens } = useAuth();
   const catererId = authTokens.id;
-  console.log("catererId = ", catererId)
+  console.log("authTokens = ", authTokens)
 
 
 
@@ -131,7 +131,7 @@ export default function Dashboard() {
   };
 
   const logOut = () => {
-    setAuthTokens();
+    setAuthTokens("");
   }
 
   return (
@@ -188,13 +188,13 @@ export default function Dashboard() {
              {/* Menu */}
              <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Menu />
+                <Menu catererId={catererId}/>
               </Paper>
             </Grid>
             {/* Messages */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Messages />
+                <Messages catererId={catererId}/>
               </Paper>
             </Grid>
           </Grid>

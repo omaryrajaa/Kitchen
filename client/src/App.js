@@ -7,8 +7,12 @@ import { AuthContext} from './context/auth';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Dashboard from './components/caterer/Dashboard'
-import TodayMenu from './components/caterer/TodayMenu'
+import Dashboard from './components/caterer/Dashboard';
+import TodayMenu from './components/caterer/TodayMenu';
+import FullMenu from './components/caterer/FullMenu';
+import OrdersHistory from './components/caterer/OrdersHistory';
+import OrderDetails from './components/caterer/OrderDetails';
+
 
 function App(props) {
   const [authTokens, setAuthTokens] = useState();
@@ -28,6 +32,10 @@ function App(props) {
           <Route path="/signup" component={Signup} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/today-menu" component={TodayMenu} />
+          <PrivateRoute path="/full-menu" component={FullMenu} />
+          <PrivateRoute path="/orders-history" component={OrdersHistory} />
+          <PrivateRoute path="/order-details" component={OrderDetails} />
+
       </div>
     </Router>
     </AuthContext.Provider>

@@ -77,7 +77,6 @@ useEffect(() => {
   };
   
   const handleEdit = () => {
-    console.log("Values = ", values)
     props.onUpdate(props.id, values)
   }
   
@@ -113,7 +112,7 @@ useEffect(() => {
 <CardContent> 
 
 <TextField
-          id={`standard-basic-${props.id}`}
+          id={`standard-basic-quantity-${props.id}`}
           label="Quantity"
           name="quantity"
           value={values.quantity}

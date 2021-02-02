@@ -1,6 +1,5 @@
 import React, { useState,useEffect} from 'react';
-
-
+import { useHistory } from 'react-router-dom';
 import axios from 'axios'
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,8 +15,7 @@ import MessageIcon from '@material-ui/icons/Message';
 import Title from './Title';
 
 import useApplicationData from '../../hooks/useApplicationData'
-import { SET_CATERER_ORDERS_TODAY, SET_CATERER_ORDER_UPDATE} from '../../reducers/dataReducer';
-import { useHistory } from 'react-router-dom';
+import { SET_CATERER_ORDERS_TODAY} from '../../reducers/dataReducer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,30 +41,16 @@ export default function Orders(props) {
       } )
       dispatch({ type: SET_CATERER_ORDERS_TODAY, catererOrdersToday: updatedTodayOrder });
 
-
-    //  const updatedValue = {...state.catererOrdersToday[index], [event.target.name]: event.target.value }
-    //  setValue(updatedValue);
    updateData(updatedTodayOrder, index);
   };  
 
-/*
-  useEffect(() => {
 
-    updateData(value);
-
-  }, [value])
-  */
 
     const updateData = (value, index) => {
 
-      console.log("value = ", value.status)
-
-      axios.put(`/api/caterers/${catererId}/orders/${state.catererOrdersToday[index].order}`, {orderId:state.catererOrdersToday[index].order, status: value})
-      .then(res => {
-        console.log('data update= ', res.data)
+      axios.put(`/api/caterers/${catererId}/orders/${state.catererOrdersToday[index].order}`, {orderId:state.catererOrdersToday[index].order, status: value[index].status})
+      .then(res => res.data)
   
-          
-      })
     }
 
  
@@ -80,8 +64,13 @@ export default function Orders(props) {
 
   const handleOrderDetails = (event, index) => {
     event.preventDefault();
-
-    history.push(`/order-details/${state.catererOrdersToday[index].order}`, {params: {catererId, orderId: state.catererOrdersToday[index].order, amount: state.catererOrdersToday[index].amount }})
+    if (catererId) {
+      history.push(`/order-details/${state.catererOrdersToday[index].order}`, {params: {catererId, orderId: state.catererOrdersToday[index].order, amount: state.catererOrdersToday[index].amount }})
+    }
+    else {
+      history.push('/login')
+    }
+   
   }
   
   

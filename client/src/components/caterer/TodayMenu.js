@@ -1,5 +1,6 @@
 import React , { useEffect, useState }from 'react';
 import { useHistory, Link } from "react-router-dom";
+import { useAuth } from "../../context/auth";
 import axios from 'axios'
 
 import AppBar from '@material-ui/core/AppBar';
@@ -47,9 +48,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 const TodayMenu = props => {
-  const catererId = 2;
+ 
   const classes = useStyles();
   const history = useHistory();
+
+  const { authTokens, setAuthTokens } = useAuth();
+  const catererId = authTokens.id;
   const { state, dispatch } = useApplicationData();
   
   const [open, setOpen] = useState(false);
@@ -65,7 +69,7 @@ const TodayMenu = props => {
   });
 
   function handleClick() {
-    history.push("/full-menu");
+    history.push("/full-menu", {params: {catererId}});
   }
 
 

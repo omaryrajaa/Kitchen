@@ -121,7 +121,23 @@ group by (orders.id, customers.name, customers.address, statuses.name, caterers.
     .catch(err => err)
   }
 
+// dishes (menu) for specidic caterer 
+    
+const getMenuForCaterer = (catererId) => {
+    
+  const query = {
+    text: `SELECT menu_items.id, menu_items.name as caterer_menu, menu_items.description as description, menu_items.price as price, food_types.name as category, menu_items.photo as photo, caterers.id as caterer_id, caterers.last_name, caterers.first_name, active_status, menu_items.quantity 
+    FROM menu_items
+    JOIN caterers ON caterers.id = menu_items.caterer_id
+    INNER JOIN food_types ON food_types.id = menu_items.food_type_id 
+    WHERE caterers.id = $1`,
+    values: [catererId]
+  }
 
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+}
 
   // dishes (menu) for specidic caterer 
     
@@ -143,7 +159,85 @@ group by (orders.id, customers.name, customers.address, statuses.name, caterers.
     .catch(err => err)
   }
   
+  // add new dish 
+  const addMenuItem = (catererId,foodTypeName, dishName, foodDescription, foodPhoto, foodPrice, status, quantity) => {
+
+    const query = {
+      text: `insert into menu_items 
+      (id,caterer_id, food_type_id, name,description, photo, price,active_status,quantity)
+      VALUES
+      (DEFAULT,$1,(SELECT id from food_types where name = $2), $3, $4, $5, $6,$7,$8) RETURNING *`,
+      values: [catererId, foodTypeName, dishName, foodDescription, foodPhoto, foodPrice,status,quantity]
+    }
+
+    return db.query(query)
+      .then(result => result.rows[0])
+      .catch(err => err)
+  }
   
+  //updateCatererMenu
+   // change menu item 
+   const updateMenuItem = (menuItemId, dishName, foodDescription, foodPrice, status,quantity) => {
+    console.log("///////////////////////")
+    const query = {
+      text: `UPDATE menu_items SET  name = $2, description = $3, price = $4, active_status = $5, quantity = $6  WHERE id = $1 RETURNING *`,
+      values: [menuItemId, dishName, foodDescription, foodPrice, status,quantity]
+      
+  }
+
+    return db.query(query)
+      .then(result => result.rows[0])
+      .catch(err => err)
+}
+
+//deleteCatererMenu
+
+  const deleteMenuItem = (menuItemId) => {
+
+    const query = {
+      text: `DELETE from menu_items WHERE id = $1`,
+      values: [menuItemId]
+    }
+
+    return db.query(query)
+    .then(result => result.rows[0])
+    .catch(err => err)
+  }
+  
+
+  // dishes in Oreder
+ const getCatererItemsByOrder = (catererId, orderId) => {
+    
+  const query = {
+    text: `select menu_items.* ,order_items.price as order_items_price, order_items.quantity , orders.* 
+    from menu_items
+    join order_items ON order_items.menu_item_id = menu_items.id
+    JOIN orders ON orders.id = order_items.order_id
+    where caterer_id = $1
+    and order_id = $2`,
+    values: [catererId, orderId]
+  }
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+}
+
+ 
+    // change order status 
+    const updateCatererOrderStatus = (orderId,status) => {
+      console.log("///////////////////////")
+      const query = {
+        text: `UPDATE orders SET  status_id = (SELECT id from statuses where name = $2) , updated_at = CURRENT_DATE  WHERE id = $1 RETURNING *`,
+        values: [orderId,status]
+        
+    }
+    
+      return db.query(query)
+        .then(result => result.rows[0])
+        .catch(err => err)
+    }
+
  
   
   return {
@@ -153,7 +247,13 @@ group by (orders.id, customers.name, customers.address, statuses.name, caterers.
     getOrdersByCatererAndDate,
     countCatererItems,
     countCatererTodayItems,
-    getTodayMenuForCaterer
+    getTodayMenuForCaterer,
+    addMenuItem,
+    updateMenuItem,
+    deleteMenuItem,
+    getMenuForCaterer,
+    getCatererItemsByOrder,
+    updateCatererOrderStatus
 
 
   };
