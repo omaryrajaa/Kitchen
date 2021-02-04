@@ -7,7 +7,7 @@ import logoImg from "../img/logoImg.png";
 import { Card, Logo, Form, Input, Button, Error } from "../components/AuthForms";
 import { useAuth } from "../context/auth";
 
-function Login() {
+function LoginCustomer() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ function Login() {
   const { setAuthTokens } = useAuth();
 
   function postLogin() {
-    axios.post(`/api/caterers/login`, {
+    axios.post(`/api/customers/login`, {
       email,
       password
     }).then(result => {
@@ -31,7 +31,7 @@ function Login() {
   }
 
   if (isLoggedIn) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/" />;
   }
 
   return (
@@ -62,4 +62,4 @@ function Login() {
   );
 }
 
-export default withRoot(Login);
+export default withRoot(LoginCustomer);

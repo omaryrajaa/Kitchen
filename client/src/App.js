@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PrivateRoute from './PrivateRoute';
 import { AuthContext} from './context/auth';
+import withRoot from './modules/withRoot';
+
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -12,6 +14,11 @@ import TodayMenu from './components/caterer/TodayMenu';
 import FullMenu from './components/caterer/FullMenu';
 import OrdersHistory from './components/caterer/OrdersHistory';
 import OrderDetails from './components/caterer/OrderDetails';
+import ItemsByName from './components/landing/ItemsByName';
+import MenuItemDetails from './components/MenuItemDetails';
+import ItemsByCategory from './components/landing/ItemsByCategory';
+import CatererTodayDishes from './components/CatererTodayDishes';
+import LoginCustomer from "./pages/LoginCustomer";
 
 
 function App(props) {
@@ -29,12 +36,17 @@ function App(props) {
       <div>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
+          <Route path="/login-customer" component={LoginCustomer} />
           <Route path="/signup" component={Signup} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/today-menu" component={TodayMenu} />
           <PrivateRoute path="/full-menu" component={FullMenu} />
           <PrivateRoute path="/orders-history" component={OrdersHistory} />
           <PrivateRoute path="/order-details" component={OrderDetails} />
+          <Route path="/items-by-name" component={ItemsByName} />
+          <Route path="/dish-details" component={MenuItemDetails} />
+          <Route path="/items-by-category" component={ItemsByCategory} />
+          <Route path="/caterer-dishes" component={CatererTodayDishes} />
 
       </div>
     </Router>
@@ -42,5 +54,5 @@ function App(props) {
   );
 }
 
-export default App;
+export default withRoot(App);
 

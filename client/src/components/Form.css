@@ -1,0 +1,32 @@
+.lookup-container {
+  width: 500px;
+  margin: 15px auto;
+}
+
+.lookup-field {
+  width: 100%;
+  padding: 15px 10px;
+  font-size: 16px;
+}
+
+.location-container {
+  margin: 10px;
+}
+
+.location-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.location-key {
+  color: #3cf;
+}
+
+.location-value {
+  width: 200px;
+}
+
+/* hide powered by Google */
+.pac-logo:after {
+  display: none;
+}

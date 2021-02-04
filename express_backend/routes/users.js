@@ -16,11 +16,101 @@ module.exports = ({
   deleteMenuItem,
   getMenuForCaterer,
   getCatererItemsByOrder,
-  updateCatererOrderStatus
+  updateCatererOrderStatus,
+  getCaterers,
+  getTopCaterers,
+  getMenusByName,
+  getMenuByCategory,
+  getFoodTypes,
+  getItemReviews
+  
 
 
 
    }) => {
+//********************************************Landing Page*************************************** */
+
+
+// all caterers
+
+router.get('/caterers', function(req, res){
+  
+  getCaterers() 
+    .then(caterers => res.json(caterers))
+    .catch(err => res.json( {
+      error: err.message
+    }))
+  
+});
+
+// top 3 caterers
+
+router.get('/caterers/top', function(req, res){
+  
+  getTopCaterers() 
+    .then(menus => res.json(menus))
+    .catch(err => res.json( {
+      error: err.message
+    }))
+  
+});
+
+/** return all dishes containing this 
+ * http://localhost:3005/api/menus/dish_name?dishName=cheese*/
+
+ router.get('/menus/dish_name', function(req, res) {
+
+  const {
+    dishName
+  } = req.query;
+
+  getMenusByName(dishName)
+  .then(menuItems => res.json(menuItems))
+  .catch(err => res.json( {
+    error: err.message
+  }))
+});
+
+//reviews for a dish
+
+
+router.get('/reviews/menuItem', function(req, res) {
+
+  const {
+    menuItemId
+  } = req.query;
+
+  getItemReviews(menuItemId)
+  .then(reviews => res.json(reviews))
+  .catch(err => res.json( {
+    error: err.message
+  }))
+});
+
+// all food categories
+router.get('/foodTypes', function(req, res){
+  getFoodTypes()
+  .then(foodTypes => res.json(foodTypes))
+  .catch(err => res.json( {
+    error: err.message
+  }))
+})
+
+
+// menu_items by Category
+
+router.get('/categories/:category/menuItems', function(req, res) {
+
+  const {
+    category
+  } = req.query;
+
+  getMenuByCategory(category)
+  .then(menuItems => res.json(menuItems))
+  .catch(err => res.json( {
+    error: err.message
+  }))
+});
 
 
 //********************************************Login************************************************/
@@ -35,7 +125,7 @@ router.post('/customers/login', function(req, res) {
   console.log(req.body)
 
   getCustomerByEmailandPassword(email, password)
-  .then(customers => console.log(res.json(customers)))
+  .then(customers => res.json(customers))
   .catch(err => res.json( {
     error: err.message
   }))

@@ -238,6 +238,127 @@ const getMenuForCaterer = (catererId) => {
         .catch(err => err)
     }
 
+    // all caterers 
+
+const getCaterers = () => {
+
+  const query = {
+    text:`SELECT id, first_name, last_name, address, phone, email, account_number, shop_name AS shop, shop_logo,shop_description, json_build_object('lat', address_latitude, 'lng', address_longitude) AS location FROM caterers`
+};
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+}
+
+// top 3 caterers
+
+const getTopCaterers = () => {
+    
+  const query = {
+    text: `select avg(rating) , caterers.* 
+    from reviews 
+    join menu_items ON menu_items.id  = reviews.menu_item_id 
+    join caterers on caterers.id = menu_items.caterer_id
+    group by (caterers.id) order by avg(rating) desc LIMIT 3`
+  }
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+
+}
+
+// list menu_items per name 
+const getMenusByName = (dishName) => {
+  console.log("dishName get= ", dishName)
+
+  const query = {
+    text:`SELECT menu_items.id as menu_item_id,
+    menu_items.name as dish_name,
+    caterers.last_name,
+    caterers.first_name,
+    caterers.address,
+    caterers.phone,
+    food_types.id,
+    food_types.name as category,
+    menu_items.photo,
+    menu_items.price, 
+    menu_items.description
+    FROM menu_items
+    JOIN food_types ON menu_items.food_type_id = food_types.id
+    JOIN caterers ON menu_items.caterer_id = caterers.id
+    WHERE menu_items.name LIKE '%' || $1 || '%'`,
+    values: [dishName]
+};
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+}
+
+// list menu_items per category 
+    
+const getMenuByCategory = (category) => {
+  console.log("dishName get= ", category)
+
+  const query = {
+    text:`SELECT menu_items.id AS id,
+    menu_items.name as name,
+    caterers.first_name,
+    caterers.last_name,
+    caterers.address,
+    caterers.phone,
+    food_types.id,
+    food_types.name as category,
+    menu_items.photo,
+    menu_items.price, 
+    menu_items.description,
+    menu_items.quantity
+    FROM menu_items
+    JOIN food_types ON menu_items.food_type_id = food_types.id
+    JOIN caterers ON menu_items.caterer_id = caterers.id
+    WHERE food_types.id = $1`,
+    values: [category]
+}
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+}
+
+
+
+// all categories
+const getFoodTypes = () => {
+
+  const query = {
+    text:`SELECT * FROM food_types`
+};
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+}
+
+// reviews by item
+
+const getItemReviews = (menuItemId) => {
+    
+  const query = {
+    text: `SELECT *
+          FROM reviews 
+          WHERE menu_item_id = $1`,
+    values: [menuItemId]
+  }
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+
+}
+
+
  
   
   return {
@@ -253,7 +374,13 @@ const getMenuForCaterer = (catererId) => {
     deleteMenuItem,
     getMenuForCaterer,
     getCatererItemsByOrder,
-    updateCatererOrderStatus
+    updateCatererOrderStatus,
+    getCaterers,
+    getTopCaterers,
+    getMenusByName,
+    getMenuByCategory,
+    getFoodTypes,
+    getItemReviews
 
 
   };
