@@ -78,7 +78,7 @@ function BecomeCatererLayout(props) {
               Do you enjoy cooking for others? Are you the go-to person to cook for family events and holidays? You can turn that passion into profits by starting a home-based catering business.
               </Typography>
               
-              <Button type="submit" color="primary" variant="contained" className={classes.button} onClick={()=> window.location.href="/login"}>
+              <Button type="submit" color="primary" variant="contained" className={classes.button} onClick={()=> window.location.href="/signup-caterer"}>
                 Get Started
                 <ArrowForwardIcon />
               </Button>

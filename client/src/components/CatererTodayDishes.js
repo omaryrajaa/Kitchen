@@ -1,25 +1,28 @@
-import React , { useEffect, useState }from 'react';
-import { useLocation, Link } from "react-router-dom";
+import React , { useEffect, }from 'react';
+import { useLocation } from "react-router-dom";
 
 import axios from 'axios'
-
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import Title from '../components/caterer/Title';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import HomeIcon from '@material-ui/icons/Home';
-
-
-
 import FooterLayout from './FooterLayout';
 
 
 import useApplicationData from '../hooks/useApplicationData';
-import { SET_CATERER_ITEMS } from '../reducers/dataReducer';
+import { SET_CATERER_ITEMS, SET_CATERER_REVIEWS } from '../reducers/dataReducer';
 import MenuItem from './MenuItem';
+import CustomerHeaderLayout from './CustomerHeaderLayout';
 
 
 
@@ -49,21 +52,38 @@ const CatererTodayDishes = () => {
   const classes = useStyles();
   const location = useLocation();
   const myparam = location.state.params;
+  const catererId = myparam.id
   console.log("******************myparam = ", myparam)
   const { state, dispatch } = useApplicationData();
 
 
   useEffect(() => {
     getData();
-  }, [dispatch])
+  }, [])
 
   const getData = async () => {
-    const response = await axios.get(`/api/caterers/${myparam.id}/menus/today`)
+    const response = await axios.get(`/api/caterers/${catererId}/menus/today`)
     console.log('response = ', response.data)
    
-        dispatch({ type: SET_CATERER_ITEMS, catererItems: response.data });
-        
-     
+    dispatch({ type: SET_CATERER_ITEMS, catererItems: response.data });
+ 
+  }
+
+   
+  useEffect(() => {
+    getReviews();
+  }, []);
+
+
+  const getReviews = async () => {
+    axios({
+      method: 'GET',
+      url: `/api/reviews/catererId`,
+      params: {catererId}
+    })
+      .then(result =>  dispatch({ type: SET_CATERER_REVIEWS, catererReviews: result.data }))
+      .catch(err => console.log(err.message))
+    
   }
    
   const renderBody = () => {
@@ -81,8 +101,12 @@ const CatererTodayDishes = () => {
               price={card.price}
               title={card.caterer_menu}
               category={card.category}
-              catererId={myparam.id}
+              catererId={catererId}
               status={card.active_status}
+              quantity={card.quantity}
+              shop_name={card.shop_name}
+              shop_description={card.shop_description}
+              shop_logo={card.shop_logo}
             />
               
             </Grid>
@@ -94,20 +118,7 @@ const CatererTodayDishes = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <div>
-          <Link className={classes.button} to="/">      
-          <HomeIcon fontSize="large" /> 
-          </Link>
-          </div>
-          <div>  
-             <Typography variant="h6" className={classes.title} noWrap>{myparam.title} Today's Menu</Typography>
-          </div>
-
-        </Toolbar>
-        
-      </AppBar>
+      <CustomerHeaderLayout />
       <main>
 
         <Container className={classes.cardGrid} maxWidth="md">
@@ -116,6 +127,56 @@ const CatererTodayDishes = () => {
           {renderBody()}
           </Grid>
         </Container>
+
+        <Title>Reviews ({state.catererReviews.length})</Title>
+      <Divider />
+      <Table size="small">
+      
+        <TableBody>
+          {state.catererReviews.map((row) => (
+            <TableRow key={row.id}>
+              <TableCell>
+              <List className={classes.root}>
+                <ListItem alignItems="flex-start">
+        
+                  <ListItemText
+                    primary={
+                    <React.Fragment>
+                      <Typography
+                      component="span"
+                      variant="h6"
+                      className={classes.inline}
+                      color="textPrimary"
+                      >
+                    {row.name} {" "} {row.rating} {" "} {row.date}
+                      </Typography>
+                     
+                      
+                      
+                    </React.Fragment>}
+                    secondary={
+                    <React.Fragment>
+                      <Typography
+                      component="span"
+                      variant="body1"
+                      className={classes.inline}
+                      color="textPrimary"
+                      >
+                     {row.text}
+                      </Typography>
+                      
+                      
+                    </React.Fragment>
+                    }
+                  />
+                </ListItem>
+              </List>
+              </TableCell>
+
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
       </main>
       {/* Footer */}
       <FooterLayout />

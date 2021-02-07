@@ -11,11 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
 import HomeIcon from '@material-ui/icons/Home';
 
 
@@ -23,7 +19,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import FooterLayout from '../FooterLayout';
 import ItemMenuEditable from './ItemMenuEditable';
 import useApplicationData from '../../hooks/useApplicationData'
-import { SET_CATERER_ITEMS, SET_CATERER_ITEMS_CREATE, SET_CATERER_ITEMS_UPDATE } from '../../reducers/dataReducer';
+import { SET_CATERER_ITEMS,  SET_CATERER_ITEMS_UPDATE } from '../../reducers/dataReducer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,34 +52,10 @@ const TodayMenu = props => {
   const catererId = authTokens.id;
   const { state, dispatch } = useApplicationData();
   
-  const [open, setOpen] = useState(false);
-  const [newItem, setNewItem] = useState({
-    price: 0,
-    description: '',
-    name: '',
-    category: '',
-    photourl: '',
-    quantity: 0
-    
-  
-  });
 
   function handleClick() {
     history.push("/full-menu", {params: {catererId}});
   }
-
-
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleChange = (event) => {
-    setNewItem({ ...newItem, [event.target.name]: event.target.value });
-    console.log(newItem)
-  };
-
-
 
   useEffect(() => {
     getData();
@@ -131,28 +103,7 @@ const TodayMenu = props => {
       })
     }
   
-    const createData = () => {
-
-      axios.post(`/api/caterers/${catererId}/menus`, {
-        catererId,
-        foodTypeId:newItem.category,
-        dishName: newItem.name,
-        foodDescription: newItem.description,
-        foodPhoto: newItem.photourl,
-        foodPrice: Number(newItem.price),
-        quantity: newItem.quantity,
-        status: false
-    
-      }).then(res => {
-        
-
-          dispatch({ type: SET_CATERER_ITEMS_CREATE, catererItemsCreate: res.data });
-          
-      })
-      handleClose();
-    }
-    
-    
+   
 
   const renderBody = () => {
     const items = state.catererItems;
@@ -200,76 +151,7 @@ const TodayMenu = props => {
       <Button variant="text" className={classes.button} onClick={handleClick}>
         Add Dish
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create new Dish</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"  
-            id="name"
-            label="Name"
-            type="name"
-            name="name"
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            id="name"
-            label="Description"
-            type="description"
-            name="description"
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            id="name"
-            label="Category"
-            type="category"
-            name="category"
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            id="name"
-            label="Photo URL"
-            type="photourl"
-            name="photourl"
-            fullWidth
-            onChange={handleChange}
-          />
-           <TextField
-            margin="dense"
-            id="name"
-            label="Quantity"
-            type="quantity"
-            name="quantity"
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            margin="dense"
-            id="name"
-            label="Price"
-            type="price"
-            name="price"
-            fullWidth
-            onChange={handleChange}
-          />
-
-
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={createData} color="primary">
-            Create
-          </Button>
-        </DialogActions>
-      </Dialog>
+     
     </div>
 
           </div>

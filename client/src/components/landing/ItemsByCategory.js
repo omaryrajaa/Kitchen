@@ -70,6 +70,10 @@ const ItemsByCategory = () => {
   image={Image1}
   description={tile.description}
   price={tile.price}
+  quantity={tile.quantity}
+  shop_name={tile.shop_name}
+  shop_logo={tile.shop_logo}
+  shop_description={tile.shop_description}
   ></MenuItem>
       
   

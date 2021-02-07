@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +7,7 @@ import Chip from '@material-ui/core/Chip';
 import CustomerHeaderLayout from './CustomerHeaderLayout';
 import FooterLayout from './FooterLayout';
 import ItemReviews from './ItemReviews';
+import CatererInfo from '../components/caterer/CatererInfo'
 
 
 import {
@@ -17,7 +17,7 @@ import {
   Typography,
   CardMedia,
   Button,
-  Paper,
+  Box,
  
 } from "@material-ui/core";
 import food from '../assets/Food.jpeg';
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex"
       },
       borderRadius: 0,
-      width: 'fit-content'
+     
     },
   
     caption: {
@@ -181,9 +181,16 @@ const MenuItemDetails = (props) => {
         </CardContent>
       </Card>
       </div>
-      <div>
+      <Box>
         <ItemReviews id={item.id} />
-      </div>
+      </Box>
+      <Box border="ridge">
+        <CatererInfo 
+        shop_name ={item.shop_name}
+        shop_logo = {item.shop_logo}
+        shop_description = {item.shop_description}
+        />
+      </Box>
       </main>
       
       <FooterLayout />

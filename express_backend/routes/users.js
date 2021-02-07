@@ -3,6 +3,7 @@ const { route } = require('.');
 const router = express.Router();
 
 
+
 module.exports = ({
   getCustomerByEmailandPassword,
   getCatererByEmailandPassword,
@@ -22,9 +23,14 @@ module.exports = ({
   getMenusByName,
   getMenuByCategory,
   getFoodTypes,
-  getItemReviews
+  getItemReviews,
+  addReview,
+  getCatererReviews,
+  getCustomerByEmail,
+  addCustomer,
+  getCatererByEmail,
+  addCaterer
   
-
 
 
    }) => {
@@ -112,6 +118,39 @@ router.get('/categories/:category/menuItems', function(req, res) {
   }))
 });
 
+//********************************************Register******************************************* */
+// new customer
+
+router.post('/customers/register',function(req, res) {
+  console.log("I am here ")
+  const {
+    name, 
+    address, 
+    phone, 
+    email,  
+    password, 
+    latitude, 
+    longitude
+  } = req.body;
+
+  getCustomerByEmail(email)
+  .then(user => {
+
+    if (user) {
+      res.json({
+        msg: 'Sorry, a user account with this email already exists'
+      });
+    } else {
+      return addCustomer(name, address, phone, email, password, latitude, longitude)
+    }
+
+  })
+  .then(newUser => res.json(newUser))
+  .catch(err => res.json({
+    error: err.message
+  }));
+})
+
 
 //********************************************Login************************************************/
 // customer login 
@@ -147,6 +186,45 @@ router.post('/caterers/login', function(req, res) {
   .catch(err => res.json( {
     error: err.message
   }))
+
+})
+
+// new Caterer
+
+router.post('/caterers/register',function(req, res) {
+  console.log(req.body)
+  const {
+    firstname,
+    lastname, 
+    address, 
+    phone, 
+    email, 
+    password, 
+    accountNumber,
+    shopname, 
+    shoplogo,
+    shopdescription,
+    latitude,
+    longitude,
+    delivery
+  } = req.body;
+
+  getCatererByEmail(email,shopname)
+  .then(user => {
+
+    if (user) {
+      res.json({
+        msg: 'Sorry, a user account with this email already exists'
+      });
+    } else {
+      return addCaterer(firstname, lastname, address, phone, email,password,accountNumber, shopname, shoplogo,shopdescription, latitude, longitude,delivery)
+    }
+
+  })
+  .then(newCaterer => res.json(newCaterer))
+  .catch(err => res.json({
+    error: err.message
+  }));
 
 })
 
@@ -343,6 +421,37 @@ router.get('/caterers/:catererId/totalItems/today', function(req, res){
   
 });
 
+//******************************************Reviews***************** */
+
+
+router.post('/reviews',function(req, res) {
+
+  const {
+    customerId,
+    menuItemId,
+    rating,
+    reviewText
+  } = req.body;
+
+  addReview(customerId,menuItemId,rating,reviewText)
+  .then(newMenuItem => res.json(newMenuItem))
+  .catch(err => res.json({
+    error: err.message
+  }))
+})
+
+router.get('/reviews/catererId',function(req, res) {
+
+  const {
+    catererId
+  } = req.query;
+
+  getCatererReviews(catererId)
+  .then(reviews => res.json(reviews))
+  .catch(err => res.json( {
+    error: err.message
+  }))
+});
 
 
 

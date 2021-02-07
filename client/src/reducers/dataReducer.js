@@ -12,10 +12,13 @@ export const SET_DISHES_BY_NAME = 'SET_DISHES_BY_NAME';
 export const SET_CATERER_ORDER_ITEMS = 'SET_CATERER_ORDER_ITEMS';
 export const SET_CATERER_ORDER_UPDATE = 'SET_CATERER_ORDER_UPDATE';
 export const SET_ITEM_REVIEWS = 'SET_ITEM_REVIEWS';
+export const SET_CATERER_REVIEWS = 'SET_CATERER_REVIEWS';
 export const SET_ITEMS_COUNT = 'SET_ITEMS_COUNT';
 export const SET_CART = 'SET_CART';
 export const SET_CATERER_ITEMS_COUNT = 'SET_CATERER_ITEMS_COUNT';
-export const SET_CATERER_ITEMS_TODAY_COUNT = "SET_CATERER_ITEMS_TODAY_COUNT"
+export const SET_CATERER_ITEMS_TODAY_COUNT = "SET_CATERER_ITEMS_TODAY_COUNT";
+export const SET_NEW_CUSTOMER = "SET_NEW_CUSTOMER"
+
 
 
 console.log('dataReducer')
@@ -24,6 +27,12 @@ console.log('dataReducer')
 
 const dataReducer = (state, action) => {
     switch (action.type) {
+        case SET_NEW_CUSTOMER:
+            return {
+                ...state,
+                newCustomer: action.newCustomer,
+                    loading: false,
+            }; 
         case SET_CATEGORIES:
             return {
                 ...state,
@@ -38,17 +47,23 @@ const dataReducer = (state, action) => {
                 };
 
             case SET_ITEMS_COUNT:
-                const something = {...state,
-                    itemsCounter: action.itemsCounter}
-                
-                return something;
-            
+                return {...state,
+                    itemsCounter: action.itemsCounter
+            };
+               
             case SET_ITEM_REVIEWS:
             return {
                 ...state,
                 itemReviews: action.itemReviews,
                     loading: false,
             };
+
+            case SET_CATERER_REVIEWS:
+                return {
+                    ...state,
+                    catererReviews: action.catererReviews,
+                        loading: false,
+                };
             case SET_CATERER_ITEMS:
                 return {
                     ...state,

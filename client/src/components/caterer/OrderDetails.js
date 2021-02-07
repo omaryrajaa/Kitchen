@@ -1,5 +1,5 @@
-import React , { useEffect, useState }from 'react';
-import { useHistory, Link } from "react-router-dom";
+import React , { useEffect }from 'react';
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 
@@ -56,7 +56,6 @@ const OrderDetails = props => {
   const location = useLocation();
   const myparam = location.state.params;
 
-  console.log("myparam here : ", myparam)
 
 
   useEffect(() => {
@@ -64,15 +63,11 @@ const OrderDetails = props => {
   }, [])
   
   const getData = async () => {
-    console.log('/////////////////')
     const response = await axios.get(`/api/caterers/${myparam.catererId}/orders/${myparam.orderId}`)
-    console.log('response = ', response.data)
    
         dispatch({ type: SET_CATERER_ORDER_ITEMS, catererOrderItems: response.data });
         
-      
     }
-  
   
   return (
     <React.Fragment>

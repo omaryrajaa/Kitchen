@@ -12,7 +12,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         authTokens ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/" />
+          <Redirect to={{pathname: "/", state: {from: props.location}}}  />
         )
       }
     />

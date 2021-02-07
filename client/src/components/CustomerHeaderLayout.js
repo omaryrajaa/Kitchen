@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import { useAuth } from "../context/auth";
 
@@ -15,13 +15,14 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Badge from '@material-ui/core/Badge';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 
 
 
 import LandingBar from './LandingBar';
 import Toolbar, { styles as toolbarStyles } from './ToolBar';
 
-import useApplicationData from '../hooks/useApplicationData'
 
 
 const styles = (theme) => ({
@@ -45,7 +46,7 @@ const styles = (theme) => ({
     justifyContent: 'flex-end',
   },
   rightLink: {
-    fontSize: 16,
+   
     fill : theme.palette.secondary.light,
     marginLeft: theme.spacing(3),
     
@@ -62,27 +63,28 @@ const styles = (theme) => ({
   searchField:{
     backgroundColor: theme.palette.secondary.light,
   },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
 
 
 });
 
 function CustomerHeaderLayout(props) {
   const { authTokens, setAuthTokens } = useAuth();
+  let localCart = JSON.parse(localStorage.getItem("cart"));
+  const qty = localCart? localCart.length : 0;
 
   const customerId = authTokens ? authTokens.id : 0
   const { classes } = props;
-  const { state, dispatch } = useApplicationData();
 
   const [values, setValues] = useState({
     dishName: ''
   });
   const history = useHistory();
+
+  const logOut = () => {
+    setAuthTokens();
+    localStorage.removeItem("cart");
+    history.push("/");
+  }
 
 
   const handleClickCart = (event) => {
@@ -97,8 +99,7 @@ function CustomerHeaderLayout(props) {
         url: `/api/menus/dish_name`,
         params: {dishName: values.dishName}
       })
-        .then(result => {console.log("get result = ", result.data)
-          history.push('/items-by-name',{params: result.data})})
+        .then(result => history.push('/items-by-name',{params: result.data}))
         .catch(err => console.log(err.message))
     }
   
@@ -111,11 +112,21 @@ function CustomerHeaderLayout(props) {
     if(customerId) {
       return (
       <div className={classes.right}>
-          <Badge badgeContent={0} color="secondary">
-              <ShoppingCartIcon onClick={handleClickCart}/>
+       <div align="center" >
+       <Badge badgeContent={qty}  className={classes.rightLink}>
+              <ShoppingCartIcon fontSize="large"   onClick={handleClickCart} />
               
            </Badge>
+       </div>
+        
+   <div>
+   <IconButton onClick={logOut}>
+            <ExitToAppIcon className={clsx(classes.rightLink, classes.linkSecondary)} fontSize="large"/>
             
+        </IconButton>
+   </div>
+
+       
           </div>
       )
     }
@@ -135,19 +146,18 @@ function CustomerHeaderLayout(props) {
         variant="h6"
         underline="none"
         className={clsx(classes.rightLink, classes.linkSecondary)}
-        href="/sign-up"
+        href="/signup-customer"
       >
         {'Sign Up'}
       </Link>
     </div>
 
     )
-
   }
-
   }
 
   return (
+    
     <div className={classes.title}>
       <LandingBar position="fixed">
         <Toolbar className={classes.toolbar}>

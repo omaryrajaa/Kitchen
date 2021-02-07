@@ -68,6 +68,10 @@ const ItemsByName = () => {
   image='https://images.unsplash.com/photo-1534081333815-ae5019106622?auto=format&fit=crop&w=400&q=80'
   description={tile.description}
   price={tile.price}
+  quantity={tile.quantity}
+  shop_name={tile.shop_name}
+  shop_description={tile.shop_description}
+  shop_logo={tile.shop_logo}
   ></MenuItem>
       
   

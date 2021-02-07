@@ -18,7 +18,7 @@ const Home = (props) => {
     <div>
       
         <CustomerHeaderLayout />
-       
+        <SearchByAddressLayout />
         <FoodCategory />
         <TopCaterersLayout />
         <BecomeCatererLayout />

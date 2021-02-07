@@ -8,7 +8,8 @@ import withRoot from './modules/withRoot';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import SignUpCustomer from './pages/SignUpCustomer';
+import SignUpCaterer from './pages/SignUpCaterer';
 import Dashboard from './components/caterer/Dashboard';
 import TodayMenu from './components/caterer/TodayMenu';
 import FullMenu from './components/caterer/FullMenu';
@@ -19,7 +20,8 @@ import MenuItemDetails from './components/MenuItemDetails';
 import ItemsByCategory from './components/landing/ItemsByCategory';
 import CatererTodayDishes from './components/CatererTodayDishes';
 import LoginCustomer from "./pages/LoginCustomer";
-
+import Cart from "./components/customer/Cart";
+import Checkout from './components/customer/Checkout'
 
 function App(props) {
   const [authTokens, setAuthTokens] = useState();
@@ -37,12 +39,15 @@ function App(props) {
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/login-customer" component={LoginCustomer} />
-          <Route path="/signup" component={Signup} />
+          <Route path="/signup-customer" component={SignUpCustomer} />
+          <Route path="/signup-caterer" component={SignUpCaterer} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/today-menu" component={TodayMenu} />
           <PrivateRoute path="/full-menu" component={FullMenu} />
           <PrivateRoute path="/orders-history" component={OrdersHistory} />
           <PrivateRoute path="/order-details" component={OrderDetails} />
+          <PrivateRoute path="/cart" component={Cart} />
+          <PrivateRoute path="/checkout" component={Checkout} />
           <Route path="/items-by-name" component={ItemsByName} />
           <Route path="/dish-details" component={MenuItemDetails} />
           <Route path="/items-by-category" component={ItemsByCategory} />

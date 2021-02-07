@@ -126,7 +126,7 @@ group by (orders.id, customers.name, customers.address, statuses.name, caterers.
 const getMenuForCaterer = (catererId) => {
     
   const query = {
-    text: `SELECT menu_items.id, menu_items.name as caterer_menu, menu_items.description as description, menu_items.price as price, food_types.name as category, menu_items.photo as photo, caterers.id as caterer_id, caterers.last_name, caterers.first_name, active_status, menu_items.quantity 
+    text: `SELECT menu_items.id, menu_items.name as caterer_menu, menu_items.description as description, menu_items.price as price,menu_items.quantity, food_types.name as category, menu_items.photo as photo, caterers.id as caterer_id, caterers.last_name, caterers.first_name,caterers.shop_logo,caterers.shop_name,caterers.shop_description, active_status, menu_items.quantity 
     FROM menu_items
     JOIN caterers ON caterers.id = menu_items.caterer_id
     INNER JOIN food_types ON food_types.id = menu_items.food_type_id 
@@ -144,7 +144,7 @@ const getMenuForCaterer = (catererId) => {
   const getTodayMenuForCaterer = (catererId) => {
     
     const query = {
-      text: `SELECT menu_items.id, menu_items.name as caterer_menu, menu_items.description as description, menu_items.price as price, food_types.name as category, menu_items.photo as photo, caterers.id as caterer_id, caterers.first_name, caterers.last_name, active_status,quantity 
+      text: `SELECT menu_items.id, menu_items.name as caterer_menu, menu_items.description as description, menu_items.price as price, food_types.name as category, menu_items.photo as photo, caterers.id as caterer_id, caterers.first_name, caterers.last_name,caterers.shop_name, caterers.shop_logo, caterers.shop_description, active_status,quantity 
       FROM menu_items
       JOIN caterers ON caterers.id = menu_items.caterer_id
       JOIN food_types ON food_types.id = menu_items.food_type_id 
@@ -256,7 +256,7 @@ const getCaterers = () => {
 const getTopCaterers = () => {
     
   const query = {
-    text: `select avg(rating) , caterers.* 
+    text: `select ROUND(AVG(rating),1) AS rate , caterers.* 
     from reviews 
     join menu_items ON menu_items.id  = reviews.menu_item_id 
     join caterers on caterers.id = menu_items.caterer_id
@@ -280,11 +280,15 @@ const getMenusByName = (dishName) => {
     caterers.first_name,
     caterers.address,
     caterers.phone,
+    caterers.shop_name,
+    caterers.shop_logo,
+    caterers.shop_description,
     food_types.id,
     food_types.name as category,
     menu_items.photo,
     menu_items.price, 
-    menu_items.description
+    menu_items.description,
+    menu_items.quantity
     FROM menu_items
     JOIN food_types ON menu_items.food_type_id = food_types.id
     JOIN caterers ON menu_items.caterer_id = caterers.id
@@ -309,6 +313,9 @@ const getMenuByCategory = (category) => {
     caterers.last_name,
     caterers.address,
     caterers.phone,
+    caterers.shop_logo,
+    caterers.shop_name,
+    caterers.shop_description,
     food_types.id,
     food_types.name as category,
     menu_items.photo,
@@ -346,8 +353,9 @@ const getFoodTypes = () => {
 const getItemReviews = (menuItemId) => {
     
   const query = {
-    text: `SELECT *
+    text: `SELECT reviews.id, reviews.rating, reviews.review_text as text,TO_CHAR(date :: DATE, 'dd/mm/yyyy') as date, customers.name AS name
           FROM reviews 
+          JOIN customers ON customers.id = reviews.customer_id
           WHERE menu_item_id = $1`,
     values: [menuItemId]
   }
@@ -357,6 +365,107 @@ const getItemReviews = (menuItemId) => {
   .catch(err => err)
 
 }
+
+// add review 
+const addReview = (customerId,menuItemId,rating,reviewText) => {
+
+  const query = {
+    text: `insert into reviews 
+    (id,customer_id, menu_item_id, rating,review_text)
+    VALUES
+    (DEFAULT,$1, $2 , $3, $4) RETURNING *`,
+    values: [customerId,menuItemId,rating,reviewText]
+  }
+
+  return db.query(query)
+    .then(result => result.rows[0])
+    .catch(err => err)
+}
+
+// reviews by item
+
+const getCatererReviews = (catererId) => {
+    
+  const query = {
+    text: `SELECT reviews.id, reviews.rating, reviews.review_text as text,TO_CHAR(date :: DATE, 'dd/mm/yyyy') as date, customers.name AS name
+          FROM reviews 
+          JOIN customers ON customers.id = reviews.customer_id
+          JOIN menu_items ON menu_items.id = reviews.menu_item_id
+          JOIN caterers ON caterers.id = menu_items.caterer_id
+          WHERE caterers.id = $1`,
+    values: [catererId]
+  }
+
+  return db.query(query)
+  .then(result => result.rows)
+  .catch(err => err)
+
+}
+
+
+// login and password check
+
+const getCustomerByEmail = (email) => {
+
+  const query = {
+    text:`SELECT * FROM customers
+    WHERE email = $1`,
+    values: [email]
+};
+
+  return db.query(query)
+  .then(result => result.rows[0])
+  .catch(err => err)
+}
+
+
+// new Customer
+const addCustomer = (name, address, phone, email,  password, latitude, longitude) => {
+  console.log("addCustomer")
+  const query = {
+    text: `INSERT INTO customers (name, address, phone, email, password, address_latitude,address_longitude) VALUES ($1, $2, $3,$4, $5, $6, $7) RETURNING *`,
+    values: [name,address, phone, email, password, latitude, longitude]
+  }
+
+  return db.query(query)
+    .then(result => result.rows[0])
+    .catch(err => err)
+
+}
+
+
+//Caterer signUp
+
+const addCaterer = (firstname, lastname, address, phone, email, password, accountNumber, shopname, shoplogo, shopdescription,latitude, longitude,delivery) => {
+
+  const query = {
+    text: `INSERT INTO caterers (first_name, last_name, address, phone, email, password, account_number, shop_name, shop_logo, shop_description,address_latitude,address_longitude,delivery) VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
+    values: [firstname, lastname, address, phone, email, password, accountNumber, shopname, shoplogo,shopdescription, latitude, longitude,delivery]
+  }
+
+  return db.query(query)
+    .then(result => result.rows[0])
+    .catch(err => err)
+}
+
+// login (email check)
+
+const getCatererByEmail = (email, shopname) => {
+
+  const query = {
+    text:`SELECT * FROM caterers
+    WHERE email = $1 
+    OR shop_name = $2`,
+    values: [email, shopname]
+};
+
+  return db.query(query)
+  .then(result => result.rows[0])
+  .catch(err => err)
+}
+
+
+
 
 
  
@@ -380,7 +489,13 @@ const getItemReviews = (menuItemId) => {
     getMenusByName,
     getMenuByCategory,
     getFoodTypes,
-    getItemReviews
+    getItemReviews,
+    addReview,
+    getCatererReviews,
+    getCustomerByEmail,
+    addCustomer,
+    getCatererByEmail,
+    addCaterer
 
 
   };

@@ -5,7 +5,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -35,7 +34,7 @@ const ItemReviews = (props) => {
     
   useEffect(() => {
     getData();
-  }, []);
+  }, [dispatch]);
 
 const getData = () => {
   axios({
@@ -50,35 +49,51 @@ const getData = () => {
   return (
     <React.Fragment>
       <Title>Reviews ({state.itemReviews.length})</Title>
-      <Table size="small">
       <Divider />
+      <Table size="small">
+      
         <TableBody>
           {state.itemReviews.map((row) => (
             <TableRow key={row.id}>
               <TableCell>
               <List className={classes.root}>
-      <ListItem alignItems="flex-start">
+                <ListItem alignItems="flex-start">
         
-        <ListItemText
-          primary={row.rating}
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                {row.review_text}
-              </Typography>
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      </List>
+                  <ListItemText
+                    primary={
+                    <React.Fragment>
+                      <Typography
+                      component="span"
+                      variant="h6"
+                      className={classes.inline}
+                      color="textPrimary"
+                      >
+                    {row.name} {" "} {row.rating}
+                      </Typography>
+                     
+                      
+                      
+                    </React.Fragment>}
+                    secondary={
+                    <React.Fragment>
+                      <Typography
+                      component="span"
+                      variant="body1"
+                      className={classes.inline}
+                      color="textPrimary"
+                      >
+                     {row.text}
+                      </Typography>
+                      
+                      
+                    </React.Fragment>
+                    }
+                  />
+                </ListItem>
+              </List>
               </TableCell>
+              <TableCell align="right">{row.date}</TableCell>
 
-              <TableCell align="right">{row.time}<ArrowForwardIosIcon /></TableCell>
             </TableRow>
           ))}
         </TableBody>

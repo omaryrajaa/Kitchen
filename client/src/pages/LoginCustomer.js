@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 import withRoot from '../modules/withRoot';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 
-import logoImg from "../img/logoImg.png";
-import { Card, Logo, Form, Input, Button, Error } from "../components/AuthForms";
+import { Card, Form, Input, Button, Error } from "../components/AuthForms";
 import { useAuth } from "../context/auth";
+import Header from '../components/Header';
 
 function LoginCustomer() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -35,8 +37,10 @@ function LoginCustomer() {
   }
 
   return (
+    <Container component="main" maxWidth="xs" >
+    <CssBaseline />
+    <Header />
     <Card>
-      <Logo src={logoImg} />
       <Form>
         <Input
           type="username"
@@ -56,9 +60,10 @@ function LoginCustomer() {
         />
         <Button onClick={postLogin}>Sign In</Button>
       </Form>
-      <Link to="/signup">Don't have an account?</Link>
+      <Link to="/signup-customer">Don't have an account?</Link>
         { isError &&<Error>The username or password provided were incorrect!</Error> }
     </Card>
+    </Container>
   );
 }
 

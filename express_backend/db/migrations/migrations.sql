@@ -1,3 +1,17 @@
+DROP TABLE IF EXISTS delivery_agents CASCADE;
+CREATE TABLE delivery_agents(
+    id SERIAL PRIMARY KEY NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    account_number VARCHAR(255) NOT NULL,
+    address_latitude NUMERIC(8,6),
+    address_longitude NUMERIC(8,6),
+);
+
 DROP TABLE IF EXISTS customers CASCADE;
 CREATE TABLE customers(
     id SERIAL PRIMARY KEY NOT NULL,
@@ -25,7 +39,7 @@ CREATE TABLE caterers(
     shop_description VARCHAR(255),
     address_latitude NUMERIC(8,6),
     address_longitude NUMERIC(8,6),
-    delivery BOOLEAN
+    delivery BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE statuses (
@@ -47,8 +61,8 @@ CREATE TABLE menu_items (
   description TEXT,
   photo VARCHAR(255) NOT NULL,
   price INT,
-  quantity SMALLINT,
-  active_status BOOLEAN
+  quantity SMALLINT DEFAULT 0,
+  active_status BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE pickup_times (
@@ -82,5 +96,6 @@ CREATE TABLE reviews (
   customer_id INTEGER REFERENCES customers(id) ON DELETE CASCADE,
   menu_item_id INTEGER REFERENCES menu_items(id) ON DELETE CASCADE,
   rating NUMERIC(2, 1),
-  review_text TEXT
+  review_text TEXT,
+  date DATE DEFAULT CURRENT_DATE
 )

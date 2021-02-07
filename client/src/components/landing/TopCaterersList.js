@@ -73,6 +73,7 @@ useEffect(() => {
           address={tile.address}
           phone={tile.phone}
           email={tile.email}
+          rate={tile.rate}
 
 
           ></CatererCard>
