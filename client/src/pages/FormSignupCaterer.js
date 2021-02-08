@@ -2,6 +2,7 @@ import React from 'react';
 import validate from '../helpers/validateInfoCaterer';
 import useForm from '../helpers/useFormCaterer';
 import './SignUp.css';
+import Form from '../components/Form';
 
 const FormSignupCaterer = ({ submitForm }) => {
   const { handleChange, handleSubmit, values, errors } = useForm(
@@ -78,9 +79,9 @@ const FormSignupCaterer = ({ submitForm }) => {
         </div>
         <div className='form-inputs'>
           <label className='form-label'>Address</label>
-          <input
+          <Form
             className='form-input'
-            type='email'
+            type='text'
             name='address'
             placeholder='Enter your address'
             value={values.address}

@@ -53,6 +53,7 @@ export default class AddressLookup extends Component {
   }
 
   onPosition ({ coords }) {
+    console.log("coords = ", coords)
     const circle = new window.google.maps.Circle({
       radius: coords.accuracy,
       center: {
@@ -76,6 +77,7 @@ export default class AddressLookup extends Component {
   }
 
   render () {
+    
     return (
       <input type="text"
         ref={this.textInput}

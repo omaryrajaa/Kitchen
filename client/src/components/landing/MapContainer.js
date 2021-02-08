@@ -291,8 +291,6 @@ const MapContainer = (props) => {
   
   return (
 
-    <LoadScript
-      googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
       <GoogleMap
         mapContainerStyle={mapStyles}
         zoom={14}
@@ -349,7 +347,7 @@ const MapContainer = (props) => {
           )
         }
       </GoogleMap>
-    </LoadScript>
+
   )
 }
 

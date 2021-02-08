@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 
 export default withStyles((theme) => ({
   root: {
+    height: '40px',
     borderRadius: 0,
     fontWeight: theme.typography.fontWeightMedium,
     fontFamily: theme.typography.fontFamilySecondary,

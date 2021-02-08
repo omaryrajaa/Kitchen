@@ -51,7 +51,7 @@ function SearchByAddressLayout(props) {
       <Grid container justify='center' alignItems='center'>
 
         <Grid item>
-          
+          <Form />
         </Grid>
 
         <Grid item>
