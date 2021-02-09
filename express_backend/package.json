@@ -14,7 +14,8 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "stripe": "^8.133.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

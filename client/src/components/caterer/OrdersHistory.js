@@ -1,6 +1,7 @@
 import React, { useEffect} from 'react';
 import { useHistory, Link } from "react-router-dom";
-import axios from 'axios'
+import axios from 'axios';
+import { useAuth } from "../../context/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,12 +15,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import HomeIcon from '@material-ui/icons/Home';
 import Container from '@material-ui/core/Container';
-
-import FooterLayout from '../views/FooterLayout';
-
-
-import useApplicationData from '../hooks/useApplicationData'
-import { SET_CATERER_ORDERS } from '../reducers/dataReducer';
+import FooterLayout from '../FooterLayout';
+import useApplicationData from '../../hooks/useApplicationData'
+import { SET_CATERER_ORDERS } from '../../reducers/dataReducer';
 
 
 
@@ -43,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const OrdersHistory = props => {
-  const catererId = 3;
+  const { authTokens, setAuthTokens } = useAuth();
+  const catererId = authTokens.id;
   const classes = useStyles();
   const history = useHistory();
 
@@ -109,7 +108,7 @@ const OrdersHistory = props => {
         <TableBody>
           {state.catererOrders.map((row, index) => (
             <TableRow key={row.order}>
-              <TableCell><Link onClick={(event) => handleOrderDetails(event, index)}>{row.order}</Link></TableCell>
+              <TableCell onClick={(event) => handleOrderDetails(event, index)}>{row.order}</TableCell>
               <TableCell>{row.customer}</TableCell>
               <TableCell>{row.status}</TableCell>            
               <TableCell>{row.amount}</TableCell>

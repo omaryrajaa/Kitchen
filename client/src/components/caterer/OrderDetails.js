@@ -1,5 +1,5 @@
-import React , { useEffect, useState }from 'react';
-import { useHistory, Link } from "react-router-dom";
+import React , { useEffect }from 'react';
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 
@@ -22,10 +22,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import HomeIcon from '@material-ui/icons/Home';
 
-import FooterLayout from '../views/FooterLayout';
+import FooterLayout from '../FooterLayout';
 
-import useApplicationData from '../hooks/useApplicationData'
-import { SET_CATERER_ORDER_ITEMS } from '../reducers/dataReducer';
+import useApplicationData from '../../hooks/useApplicationData'
+import { SET_CATERER_ORDER_ITEMS } from '../../reducers/dataReducer';
 
 
 import Title from './Title';
@@ -56,7 +56,6 @@ const OrderDetails = props => {
   const location = useLocation();
   const myparam = location.state.params;
 
-  console.log("myparam here : ", myparam)
 
 
   useEffect(() => {
@@ -64,15 +63,11 @@ const OrderDetails = props => {
   }, [])
   
   const getData = async () => {
-    console.log('/////////////////')
     const response = await axios.get(`/api/caterers/${myparam.catererId}/orders/${myparam.orderId}`)
-    console.log('response = ', response.data)
    
         dispatch({ type: SET_CATERER_ORDER_ITEMS, catererOrderItems: response.data });
         
-      
     }
-  
   
   return (
     <React.Fragment>
@@ -97,8 +92,8 @@ const OrderDetails = props => {
           
           <Grid container spacing={4}>
           <Container maxWidth="lg" className={classes.container}>
-      <Title>Order Number:</Title>
-      <Table size="large">
+      <Title>Order Number: {myparam.orderId}</Title>
+      <Table size="medium">
         <TableHead>
           <TableRow>
             <TableCell>Dish Name</TableCell>
@@ -109,7 +104,7 @@ const OrderDetails = props => {
         </TableHead>
         <TableBody>
           {state.catererOrderItems && state.catererOrderItems.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.name}>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.quantity}</TableCell>
               <TableCell>{row.order_items_price}</TableCell>
@@ -120,7 +115,7 @@ const OrderDetails = props => {
       <div className={classes.seeMore}>
       <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
           <Input
-                      InputProps={{
+                      inputProps={{
                         readOnly: true,
                       }}
                    

@@ -1,5 +1,7 @@
 import React , { useEffect, useState }from 'react';
 import { useHistory, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 
 import axios from 'axios'
 
@@ -19,11 +21,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import HomeIcon from '@material-ui/icons/Home';
 
 
-import dish from '../assets/Dish.jpeg'
-import FooterLayout from '../views/FooterLayout';
+import FooterLayout from '../FooterLayout';
 import ItemMenuEditable from './ItemMenuEditable';
-import useApplicationData from '../hooks/useApplicationData'
-import { SET_CATEGORIES, SET_CATERER_ITEMS, SET_CATERER_ITEMS_CREATE, SET_CATERER_ITEMS_UPDATE } from '../reducers/dataReducer';
+import useApplicationData from '../../hooks/useApplicationData'
+import {SET_CATERER_ITEMS, SET_CATERER_ITEMS_CREATE, SET_CATERER_ITEMS_UPDATE } from '../../reducers/dataReducer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,9 +50,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 const FullMenu = props => {
-  const catererId = 2;
-
-  let history = useHistory();
+  
+  const history = useHistory();
+  const location = useLocation();
+  const myparam = location.state.params;
+  const catererId = myparam.catererId;
   const { state, dispatch } = useApplicationData();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -67,7 +70,7 @@ const FullMenu = props => {
   });
 
   function handleClick() {
-    history.push("/today-menu");
+    history.push("/today-menu", {params: {catererId}});
   }
 
   const handleClickOpen = () => {
