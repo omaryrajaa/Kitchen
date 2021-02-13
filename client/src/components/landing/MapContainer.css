@@ -30,11 +30,11 @@
 .store-des {
   font-family: none;
   font-size: 14px;
-  margin-right:10px;
+  margin-right: 10px;
   width: 90%;
   align-items: center;
   display: flex;
-  margin-top: 5px
+  margin-top: 5px;
 }
 
 .icon-fo {
@@ -42,9 +42,8 @@
   transform: scale(1);
 }
 
-.follow{
+.follow {
   display: flex;
-
 }
 
 .site {

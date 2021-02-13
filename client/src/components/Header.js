@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { withStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
+import { withStyles } from "@material-ui/core/styles";
+import Link from "@material-ui/core/Link";
 
-import LandingBar from '../components/LandingBar';
-import Toolbar, { styles as toolbarStyles } from '../components/ToolBar';
+import LandingBar from "../components/LandingBar";
+import Toolbar, { styles as toolbarStyles } from "../components/ToolBar";
 
 const styles = (theme) => ({
   title: {
     fontSize: 24,
-    color: 'white'
+    color: "white",
   },
   placeholder: toolbarStyles(theme).root,
   toolbar: {
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   },
   left: {
     flex: 1,
@@ -24,8 +24,8 @@ const styles = (theme) => ({
   },
   right: {
     flex: 1,
-    display: 'flex',
-    justifyContent: 'flex-end',
+    display: "flex",
+    justifyContent: "flex-end",
   },
   rightLink: {
     fontSize: 16,
@@ -44,7 +44,7 @@ function Header(props) {
     <div>
       <LandingBar position="fixed">
         <Toolbar className={classes.toolbar}>
-          <div/>
+          <div />
           <Link
             variant="h6"
             underline="none"
@@ -52,7 +52,7 @@ function Header(props) {
             className={classes.title}
             href="/"
           >
-            {'KITCH'}
+            {"KITCH"}
           </Link>
         </Toolbar>
       </LandingBar>

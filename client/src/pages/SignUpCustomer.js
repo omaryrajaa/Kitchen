@@ -1,14 +1,11 @@
- 
-import React, { useState } from 'react';
-import withRoot from '../modules/withRoot';
-import './SignUp.css';
-import FormSignup from './FormSignup';
-import FormSuccess from './FormSuccess';
-import Header from '../components/Header';
-
+import React, { useState } from "react";
+import withRoot from "../modules/withRoot";
+import "./SignUp.css";
+import FormSignup from "./FormSignup";
+import FormSuccess from "./FormSuccess";
+import Header from "../components/Header";
 
 const SignUpCustomer = () => {
-
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   function submitForm() {
@@ -18,14 +15,13 @@ const SignUpCustomer = () => {
   return (
     <>
       <Header />
-      <div className='form-container'>
+      <div className="form-container">
         {!isSubmitted ? (
           <FormSignup submitForm={submitForm} />
         ) : (
           <FormSuccess />
         )}
       </div>
-     
     </>
   );
 };

@@ -1,31 +1,31 @@
-import { useReducer } from 'react';
+import { useReducer } from "react";
 
-import dataReducer from '../reducers/dataReducer';
-
+import dataReducer from "../reducers/dataReducer";
 
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(dataReducer, {
     caterers: [],
     catererItems: [],
-    catererOrdersToday:[],
-    catererOrderUpdate:{},
-    catererOrderItems:[],
+    catererOrdersToday: [],
+    catererOrderUpdate: {},
+    catererOrderItems: [],
     dishesByName: [],
-    catererOrders:[],
+    catererOrders: [],
     topCaterers: [],
     categories: [],
     itemReviews: [],
     catererReviews: [],
-    cart:[],
+    cart: [],
     customerAddress: {},
     catererItemsUpdate: {},
     catererItemsCreate: {},
     newCustomer: {},
-    foodCategory: '',
+    customerOrder: {},
+    foodCategory: "",
     itemsCounter: 0,
     catererItemsCount: 0,
     catererItemsTodayCount: 0,
-    
+
     loading: true,
   });
 

@@ -1,5 +1,5 @@
 .form-container {
-  margin: 80px auto;
+  margin: 150px auto;
   width: 500px;
   box-shadow: #fff;
   position: relative;
@@ -34,7 +34,7 @@
 .form-content-right {
   border-radius: 0 10px 10px 0;
   position: relative;
-  background: #fff
+  background: #fff;
 }
 
 .form {
@@ -96,7 +96,7 @@
   height: 50px;
   margin-top: 10px;
   border-radius: 2px;
-  background: #58BC82;
+  background: #58bc82;
   outline: none;
   border: none;
   color: #fff;
@@ -105,7 +105,7 @@
 
 .form-input-btn:hover {
   cursor: pointer;
-  background: #FE5734;
+  background: #fe5734;
   transition: all 0.4s ease-out;
 }
 

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Card = styled.div`
   box-sizing: border-box;
@@ -24,8 +24,8 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background: #58BC82;
-  border-color: #58BC82;
+  background: #58bc82;
+  border-color: #58bc82;
   border-radius: 3px;
   padding: 1rem;
   color: white;

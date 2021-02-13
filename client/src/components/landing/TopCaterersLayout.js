@@ -1,17 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Typography from '../Typography';
-import TopCaterersList from './TopCaterersList';
-
-
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Typography from "../Typography";
+import TopCaterersList from "./TopCaterersList";
 
 const styles = (theme) => ({
   root: {
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(4),
-  }
+  },
 });
 
 function TopCaterersLayout(props) {
@@ -23,8 +21,7 @@ function TopCaterersLayout(props) {
         Top Caterers
       </Typography>
       <div className={classes.images}>
-      <TopCaterersList
-      />
+        <TopCaterersList />
       </div>
     </Container>
   );

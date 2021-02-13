@@ -1,18 +1,17 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import Container from '@material-ui/core/Container';
-import Typography from '../components/Typography';
-
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
+import Container from "@material-ui/core/Container";
+import Typography from "../components/Typography";
 
 function Copyright() {
   return (
     <React.Fragment>
-      {'© '}
+      {"© "}
       <Link color="inherit" href="/">
         KITCH
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
     </React.Fragment>
   );
@@ -20,30 +19,26 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
     backgroundColor: theme.palette.secondary.light,
   },
   container: {
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(8),
-    display: 'flex',
+    display: "flex",
   },
 
   list: {
     margin: 0,
-    listStyle: 'none',
+    listStyle: "none",
     padding: 0,
-
   },
   listItem: {
     paddingTop: theme.spacing(0.5),
     paddingBottom: theme.spacing(0.5),
-    color: 'white'
+    color: "white",
   },
-
 }));
-
-
 
 export default function FooterLayout() {
   const classes = useStyles();
@@ -60,7 +55,6 @@ export default function FooterLayout() {
               className={classes.iconsWrapper}
               spacing={2}
             >
-
               <Grid item>
                 <Copyright />
               </Grid>
@@ -86,7 +80,6 @@ export default function FooterLayout() {
               <li className={classes.listItem}>
                 <Link href="">Business Account</Link>
               </li>
-
             </ul>
           </Grid>
           <Grid item xs={6} sm={8} md={4}>
@@ -109,11 +102,8 @@ export default function FooterLayout() {
               <li className={classes.listItem}>
                 <Link href="">English</Link>
               </li>
-
             </ul>
-            
           </Grid>
-
         </Grid>
       </Container>
     </Typography>

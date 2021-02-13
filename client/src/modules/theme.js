@@ -1,39 +1,39 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import { green, grey, red } from '@material-ui/core/colors';
+import { createMuiTheme } from "@material-ui/core/styles";
+import { green, grey, red } from "@material-ui/core/colors";
 
 const rawTheme = createMuiTheme({
-   overrides: {
+  overrides: {
     MuiCssBaseline: {
-      '@global': {
+      "@global": {
         html: {
-          height: '100%',
+          height: "100%",
         },
         body: {
-          height: '100%',
+          height: "100%",
         },
-        '#root': {
-          display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    justifyContent: 'space-between'
+        "#root": {
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          justifyContent: "space-between",
         },
       },
     },
   },
   palette: {
     primary: {
-      light: '#69696a',
-      main: '#58BC82',
-      dark: '#1e1e1f',
+      light: "#69696a",
+      main: "#58BC82",
+      dark: "#1e1e1f",
     },
     secondary: {
-      light: '#fff5f8',
-      main: '#FE5734',
-      dark: '#e62958',
+      light: "#fff5f8",
+      main: "#FE5734",
+      dark: "#e62958",
     },
     warning: {
-      main: '#ffc071',
-      dark: '#ffb25e',
+      main: "#ffc071",
+      dark: "#ffb25e",
     },
     error: {
       xLight: red[50],
@@ -60,7 +60,7 @@ const fontHeader = {
   color: rawTheme.palette.text.primary,
   fontWeight: rawTheme.typography.fontWeightMedium,
   fontFamily: rawTheme.typography.fontFamilySecondary,
-  textTransform: 'uppercase',
+  textTransform: "uppercase",
 };
 
 const theme = {

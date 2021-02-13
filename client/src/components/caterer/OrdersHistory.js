@@ -1,26 +1,23 @@
-import React, { useEffect} from 'react';
+import React, { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { useAuth } from "../../context/auth";
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import HomeIcon from '@material-ui/icons/Home';
-import Container from '@material-ui/core/Container';
-import FooterLayout from '../FooterLayout';
-import useApplicationData from '../../hooks/useApplicationData'
-import { SET_CATERER_ORDERS } from '../../reducers/dataReducer';
-
-
-
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import AppBar from "@material-ui/core/AppBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import HomeIcon from "@material-ui/icons/Home";
+import Container from "@material-ui/core/Container";
+import FooterLayout from "../FooterLayout";
+import useApplicationData from "../../hooks/useApplicationData";
+import { SET_CATERER_ORDERS } from "../../reducers/dataReducer";
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -33,92 +30,89 @@ const useStyles = makeStyles((theme) => ({
   button: {
     color: theme.palette.secondary.light,
   },
-  title:{
+  title: {
     color: theme.palette.secondary.light,
-
-  }
+  },
 }));
 
-
-const OrdersHistory = props => {
+const OrdersHistory = (props) => {
   const { authTokens, setAuthTokens } = useAuth();
   const catererId = authTokens.id;
   const classes = useStyles();
   const history = useHistory();
 
   const { state, dispatch } = useApplicationData();
-    
 
   useEffect(() => {
     getData();
-  }, [])
+  }, []);
 
   const getData = async () => {
-    console.log('/////////////////')
-    const response = await axios.get(`/api/caterers/${catererId}/orders`)
-    console.log('response = ', response.data)
-   
-        dispatch({ type: SET_CATERER_ORDERS, catererOrders: response.data });
-           
-    }
+    const response = await axios.get(`/api/caterers/${catererId}/orders`);
 
-    const handleOrderDetails = (event, index) => {
-      event.preventDefault();
-  
-      history.push(`/order-details/${state.catererOrders[index].order}`, {params: {catererId, orderId: state.catererOrders[index].order, amount: state.catererOrders[index].amount }})
-    }
+    dispatch({ type: SET_CATERER_ORDERS, catererOrders: response.data });
+  };
 
+  const handleOrderDetails = (event, index) => {
+    event.preventDefault();
+
+    history.push(`/order-details/${state.catererOrders[index].order}`, {
+      params: {
+        catererId,
+        orderId: state.catererOrders[index].order,
+        amount: state.catererOrders[index].amount,
+      },
+    });
+  };
 
   return (
     <React.Fragment>
-    <CssBaseline />
-    <AppBar position="relative">
-      <Toolbar>
-      <div>
-        <Link className={classes.button} to="/dashboard">      
-        <HomeIcon fontSize="large" /> 
-        </Link>
-        </div>
-        <div>         
-           <Typography variant="h6" className={classes.title} noWrap>Orders History</Typography>
-        </div>
-       
-      </Toolbar>
-      
-    </AppBar>
-    <main>
+      <CssBaseline />
+      <AppBar position="relative">
+        <Toolbar>
+          <div>
+            <Link className={classes.button} to="/dashboard">
+              <HomeIcon fontSize="large" />
+            </Link>
+          </div>
+          <div>
+            <Typography variant="h6" className={classes.title} noWrap>
+              Orders History
+            </Typography>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <main>
+        <Container className={classes.cardGrid} maxWidth="md">
+          <Grid container spacing={4}>
+            <Container maxWidth="lg" className={classes.container}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Order Number</TableCell>
+                    <TableCell>Customer Name</TableCell>
+                    <TableCell>Order Status</TableCell>
+                    <TableCell>Total Amount</TableCell>
 
-      <Container className={classes.cardGrid} maxWidth="md">
-        
-        <Grid container spacing={4}>
-        <Container maxWidth="lg" className={classes.container}>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            
-            <TableCell>Order Number</TableCell>
-            <TableCell>Customer Name</TableCell>
-            <TableCell>Order Status</TableCell>
-            <TableCell>Total Amount</TableCell>
-            
-            <TableCell></TableCell>
-
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {state.catererOrders.map((row, index) => (
-            <TableRow key={row.order}>
-              <TableCell onClick={(event) => handleOrderDetails(event, index)}>{row.order}</TableCell>
-              <TableCell>{row.customer}</TableCell>
-              <TableCell>{row.status}</TableCell>            
-              <TableCell>{row.amount}</TableCell>
-              
-              
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </Container>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {state.catererOrders.map((row, index) => (
+                    <TableRow key={row.order}>
+                      <TableCell
+                        onClick={(event) => handleOrderDetails(event, index)}
+                      >
+                        {row.order}
+                      </TableCell>
+                      <TableCell>{row.customer}</TableCell>
+                      <TableCell>{row.status}</TableCell>
+                      <TableCell>{row.amount}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Container>
           </Grid>
         </Container>
       </main>
@@ -127,7 +121,6 @@ const OrdersHistory = props => {
       {/* End footer */}
     </React.Fragment>
   );
-  }
+};
 
-  export default OrdersHistory
-      
+export default OrdersHistory;

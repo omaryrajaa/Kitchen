@@ -1,17 +1,17 @@
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 export default withStyles((theme) => ({
   root: {
-    height: '40px',
+    height: "40px",
     borderRadius: 0,
     fontWeight: theme.typography.fontWeightMedium,
     fontFamily: theme.typography.fontFamilySecondary,
     padding: theme.spacing(2, 4),
     fontSize: theme.typography.pxToRem(14),
-    boxShadow: 'none',
-    '&:active, &:focus': {
-      boxShadow: 'none',
+    boxShadow: "none",
+    "&:active, &:focus": {
+      boxShadow: "none",
     },
   },
   sizeSmall: {

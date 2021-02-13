@@ -21,7 +21,8 @@ CREATE TABLE customers(
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     address_latitude NUMERIC(8,6),
-    address_longitude NUMERIC(8,6)
+    address_longitude NUMERIC(8,6),
+    postal_code VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS caterers CASCADE;
@@ -39,6 +40,7 @@ CREATE TABLE caterers(
     shop_description VARCHAR(255),
     address_latitude NUMERIC(8,6),
     address_longitude NUMERIC(8,6),
+    postal_code VARCHAR(255),
     delivery BOOLEAN DEFAULT TRUE
 );
 
@@ -68,7 +70,8 @@ CREATE TABLE menu_items (
 CREATE TABLE pickup_times (
  id SERIAL PRIMARY KEY NOT NULL,
  menu_item_id INTEGER REFERENCES menu_items(id) ON DELETE CASCADE,
- time TIME
+ start_time TIME,
+ end_time TIME
 );
 
 CREATE TABLE orders (

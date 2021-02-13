@@ -4,7 +4,7 @@ import {
   InputLabel,
   Input,
   Button,
-  TextField
+  TextField,
 } from "@material-ui/core";
 
 class Contact extends React.Component {
@@ -15,7 +15,7 @@ class Contact extends React.Component {
           display: "flex",
           justifyContent: "center",
           margin: 20,
-          padding: 20
+          padding: 20,
         }}
       >
         <form style={{ width: "50%" }}>

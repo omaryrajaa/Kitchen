@@ -1,18 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-
+import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { withStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 
 const styles = (theme) => ({
   root: {
     color: theme.palette.common.white,
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    [theme.breakpoints.up('sm')]: {
-      height: '60vh',
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    [theme.breakpoints.up("sm")]: {
+      height: "60vh",
       minHeight: 500,
       maxHeight: 1300,
     },
@@ -20,13 +19,12 @@ const styles = (theme) => ({
   container: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(14),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   backdrop: {
-    
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
@@ -35,16 +33,15 @@ const styles = (theme) => ({
     zIndex: -1,
   },
   background: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
     zIndex: -2,
   },
-
 });
 
 function SearchByAddress(props) {
