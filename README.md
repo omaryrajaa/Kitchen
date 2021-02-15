@@ -38,7 +38,7 @@ Database is created on Postgresql and run with docker file. Please install docke
   * Install npm dependencies by running npm install
   * To start the server in development mode(using port 3005): npm run dev
 
-3. clent:
+3. client:
   * cd client
   * Make a copy of the .env.example file and rename it to .env
   * Update .env with necessary environment details e.g Google API key(places, geocoding, map)
