@@ -27,7 +27,7 @@ const useFormDelivery = (callback, validate) => {
 
     setErrors(validate(values));
     setIsSubmitting(true);
-    createCaterer();
+    createDelivery();
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const useFormDelivery = (callback, validate) => {
     }
   }, [errors]);
 
-  const createCaterer = (errors) => {
+  const createDelivery = (errors) => {
     axios
       .post(`/api/delivery_agents/register`, {
         firstname: values.firstname,
@@ -56,7 +56,7 @@ const useFormDelivery = (callback, validate) => {
           alert("Email exists already!");
         }
       })
-      .catch((err) => console.log(err.msg));
+      .catch((err) => err.msg);
   };
 
   return { handleChange, handleSubmit, values, errors };

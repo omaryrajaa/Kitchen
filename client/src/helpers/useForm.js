@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import useApplicationData from "../hooks/useApplicationData";
+import { SET_NEW_CUSTOMER } from "../reducers/dataReducer";
+
 
 const useForm = (callback, validate) => {
   const [values, setValues] = useState({
@@ -12,6 +15,8 @@ const useForm = (callback, validate) => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { state, dispatch } = useApplicationData();
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,14 +47,12 @@ const useForm = (callback, validate) => {
         address: values.address,
         phone: values.phone,
         email: values.email,
-        password: values.password,
-        latitude: 0,
-        longitude: 0,
+        password: values.password
       })
       .then((res) => {
-        //    dispatch({ type: SET_NEW_CUSTOMER, newCustomer: res.data });
+            dispatch({ type: SET_NEW_CUSTOMER, newCustomer: res.data });
       })
-      .catch((err) => console.log(err.msg));
+      .catch((err) => err.msg);
   };
 
   return { handleChange, handleSubmit, values, errors };

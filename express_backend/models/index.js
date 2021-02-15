@@ -469,13 +469,11 @@ ORDER BY orders.pickup_time`,
     address,
     phone,
     email,
-    password,
-    latitude,
-    longitude
+    password
   ) => {
     const query = {
-      text: `INSERT INTO customers (name, address, phone, email, password, address_latitude,address_longitude) VALUES ($1, $2, $3,$4, $5, $6, $7) RETURNING *`,
-      values: [name, address, phone, email, password, latitude, longitude],
+      text: `INSERT INTO customers (name, address, phone, email, password) VALUES ($1, $2, $3,$4, $5) RETURNING *`,
+      values: [name, address, phone, email, password],
     };
 
     return db
@@ -538,7 +536,7 @@ ORDER BY orders.pickup_time`,
     accountNumber
   ) => {
     const query = {
-      text: `INSERT INTO caterers (first_name, last_name, address, phone, email, password, account_number) VALUES ($1, $2, $3,$4, $5, $6, $7) RETURNING *`,
+      text: `INSERT INTO delivery_agents (first_name, last_name, address, phone, email, password, account_number) VALUES ($1, $2, $3,$4, $5, $6, $7) RETURNING *`,
       values: [
         firstname,
         lastname,
@@ -605,7 +603,7 @@ ORDER BY orders.pickup_time`,
           VALUES($1,$2,$3, $4,$5,CURRENT_DATE,CURRENT_DATE,$6) RETURNING id)
           INSERT INTO order_items(order_id,menu_item_id,price,quantity) 
           SELECT order_key.id, t.a, t.b, t.c
-          FROM order_key,(SELECT UNNEST($7::int[]) AS a, UNNEST($8::int[]) AS b, UNNEST($9::smallint[]) AS c) t`,
+          FROM order_key,(SELECT UNNEST($7::int[]) AS a, UNNEST($8::numeric[]) AS b, UNNEST($9::smallint[]) AS c) t`,
       values: [
         customerId,
         statusId,
@@ -618,7 +616,9 @@ ORDER BY orders.pickup_time`,
         listQty,
       ],
     };
-    return db.query(query).catch((err) => err);
+    return db.query(query)
+    .then((result) => result.rows[0])
+    .catch((err) => err);
   };
 
   return {

@@ -122,9 +122,7 @@ module.exports = ({
       address,
       phone,
       email,
-      password,
-      latitude,
-      longitude,
+      password
     } = req.body;
 
     getCustomerByEmail(email)
@@ -139,9 +137,7 @@ module.exports = ({
             address,
             phone,
             email,
-            password,
-            latitude,
-            longitude
+            password
           );
         }
       })
