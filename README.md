@@ -1,5 +1,5 @@
 # Kitch
-
+Food catering application where local caterers can set their menus, and customers can order food locally prepared by the caterers. 
 
 ## Features
 ### Required features

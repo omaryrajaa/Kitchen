@@ -38,6 +38,7 @@ CREATE TABLE caterers(
     delivery BOOLEAN DEFAULT TRUE
 );
 
+/**  1: 'in process', 2:'ready', 3: 'completed'*/
 DROP TABLE IF EXISTS statuses CASCADE;
 CREATE TABLE statuses (
   id SERIAL PRIMARY KEY NOT NULL , 
