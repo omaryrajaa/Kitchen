@@ -107,7 +107,8 @@ ORDER BY orders.pickup_time`,
     const query = {
       text: `SELECT count(id) as total FROM menu_items
       WHERE caterer_id = $1 
-      AND active_status = true`,
+      AND active_status = true
+      AND quantity > 0`,
       values: [catererId],
     };
     return db

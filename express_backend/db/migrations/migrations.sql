@@ -42,7 +42,7 @@ CREATE TABLE caterers(
 DROP TABLE IF EXISTS statuses CASCADE;
 CREATE TABLE statuses (
   id SERIAL PRIMARY KEY NOT NULL , 
-  name TEXT CHECK (name IN ('in process', 'ready', 'completed'))
+  name TEXT CHECK (name IN ('in progress', 'ready', 'completed'))
 );
 
 
