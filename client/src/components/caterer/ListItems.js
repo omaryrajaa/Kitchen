@@ -7,6 +7,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
 import LayersIcon from "@material-ui/icons/Layers";
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import MessageIcon from "@material-ui/icons/Message";
@@ -38,6 +39,14 @@ export const mainListItems = (
           <RestaurantMenuIcon />
         </ListItemIcon>
         <ListItemText primary="Menu" />
+      </ListItem>
+    </Link>
+    <Link to="/list-delivery-agents">
+      <ListItem button>
+        <ListItemIcon>
+          <LocalShippingIcon />
+        </ListItemIcon>
+        <ListItemText primary="Delivery Agents" />
       </ListItem>
     </Link>
     <ListItem button>

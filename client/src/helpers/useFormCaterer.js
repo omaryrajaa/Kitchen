@@ -72,7 +72,7 @@ const useFormCaterer = (callback, validate) => {
           alert("Email exists already!");
         }
       })
-      .catch((err) => console.log(err.msg));
+      .catch((err) => err.msg);
   };
 
   return { handleChange, handleSubmit, values, errors };

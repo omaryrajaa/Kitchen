@@ -23,7 +23,7 @@ function LoginCustomer() {
         password,
       })
       .then((result) => {
-        if (result.status === 200) {
+        if (result.status === 200 && !result.data.msg) {
           setAuthTokens(result.data);
           setLoggedIn(true);
         } else {

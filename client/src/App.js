@@ -14,6 +14,7 @@ import TodayMenu from "./components/caterer/TodayMenu";
 import FullMenu from "./components/caterer/FullMenu";
 import OrdersHistory from "./components/caterer/OrdersHistory";
 import OrderDetails from "./components/caterer/OrderDetails";
+import DeliveryAgentsList from "./components/caterer/DeliveryAgentsList";
 import ItemsByName from "./components/landing/ItemsByName";
 import MenuItemDetails from "./components/MenuItemDetails";
 import ItemsByCategory from "./components/landing/ItemsByCategory";
@@ -46,6 +47,7 @@ function App(props) {
           <PrivateRoute path="/full-menu" component={FullMenu} />
           <PrivateRoute path="/orders-history" component={OrdersHistory} />
           <PrivateRoute path="/order-details" component={OrderDetails} />
+          <PrivateRoute path="/list-delivery-agents" component={DeliveryAgentsList} />
           <PrivateRoute path="/cart" component={Cart} />
           <PrivateRoute path="/checkout" component={Checkout} />
           <Route path="/items-by-name" component={ItemsByName} />

@@ -22,9 +22,14 @@ function Login() {
         password,
       })
       .then((result) => {
-        if (result.status === 200) {
-          setAuthTokens(result.data);
-          setLoggedIn(true);
+        if (result.status === 200 && !result.data.msg) {
+          if (result.data.approved) {
+            setAuthTokens(result.data);
+            setLoggedIn(true);
+          } else {
+            alert('Your applicatian is still under process.')
+          }
+          
         } else {
           setIsError(true);
         }

@@ -21,6 +21,7 @@ const useApplicationData = () => {
     catererItemsCreate: {},
     newCustomer: {},
     customerOrder: {},
+    deliveryAgents: [],
     foodCategory: "",
     itemsCounter: 0,
     catererItemsCount: 0,

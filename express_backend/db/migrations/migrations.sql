@@ -35,7 +35,7 @@ CREATE TABLE caterers(
     shop_description VARCHAR(255),
     address_latitude NUMERIC(8,6),
     address_longitude NUMERIC(8,6),
-    delivery BOOLEAN DEFAULT TRUE
+    approved BOOLEAN DEFAULT FALSE
 );
 
 /**  1: 'in process', 2:'ready', 3: 'completed'*/

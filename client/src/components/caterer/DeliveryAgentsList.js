@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../../context/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -17,7 +16,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import Container from "@material-ui/core/Container";
 import FooterLayout from "../FooterLayout";
 import useApplicationData from "../../hooks/useApplicationData";
-import { SET_CATERER_ORDERS } from "../../reducers/dataReducer";
+import { SET_DELIVERY_AGENTS } from "../../reducers/dataReducer";
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -35,35 +34,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OrdersHistory = (props) => {
-  const { authTokens, setAuthTokens } = useAuth();
-  const catererId = authTokens.id;
-  const classes = useStyles();
-  const history = useHistory();
+const DeliveryAgentsList = (props) => {
 
+  const classes = useStyles();
   const { state, dispatch } = useApplicationData();
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [dispatch]);
 
   const getData = async () => {
-    const response = await axios.get(`/api/caterers/${catererId}/orders`);
+    const response = await axios.get(`/api/delivery-agents`);
 
-    dispatch({ type: SET_CATERER_ORDERS, catererOrders: response.data });
+    dispatch({ type: SET_DELIVERY_AGENTS, deliveryAgents: response.data });
   };
 
-  const handleOrderDetails = (event, index) => {
-    event.preventDefault();
-
-    history.push(`/order-details/${state.catererOrders[index].order}`, {
-      params: {
-        catererId,
-        orderId: state.catererOrders[index].order,
-        amount: state.catererOrders[index].amount,
-      },
-    });
-  };
 
   return (
     <React.Fragment>
@@ -77,7 +62,7 @@ const OrdersHistory = (props) => {
           </div>
           <div>
             <Typography variant="h6" className={classes.title} noWrap>
-              Orders History
+              List Delivery Agents
             </Typography>
           </div>
         </Toolbar>
@@ -89,25 +74,25 @@ const OrdersHistory = (props) => {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Order Number</TableCell>
-                    <TableCell>Customer Name</TableCell>
-                    <TableCell>Order Status</TableCell>
-                    <TableCell>Date</TableCell>
+                    <TableCell>First Name</TableCell>
+                    <TableCell>Last Name</TableCell>
+                    <TableCell>Address</TableCell>
+                    <TableCell>Phone Number</TableCell>
+                    <TableCell>Email</TableCell>
+
 
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {state.catererOrders.map((row, index) => (
-                    <TableRow key={row.order}>
-                      <TableCell
-                        onClick={(event) => handleOrderDetails(event, index)}
-                      >
-                        {row.order}
-                      </TableCell>
-                      <TableCell>{row.customer}</TableCell>
-                      <TableCell>{row.status}</TableCell>
-                      <TableCell>{row.date}</TableCell>
+                  {state.deliveryAgents && state.deliveryAgents.map((row, index) => (
+                    <TableRow key={row.email}>
+                      <TableCell>{row.first_name}</TableCell>
+                      <TableCell>{row.last_name}</TableCell>
+                      <TableCell>{row.address}</TableCell>
+                      <TableCell>{row.phone}</TableCell>
+                      <TableCell>{row.email}</TableCell>
+
                     </TableRow>
                   ))}
                 </TableBody>
@@ -123,4 +108,4 @@ const OrdersHistory = (props) => {
   );
 };
 
-export default OrdersHistory;
+export default DeliveryAgentsList;

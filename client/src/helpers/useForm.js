@@ -50,7 +50,15 @@ const useForm = (callback, validate) => {
         password: values.password
       })
       .then((res) => {
-            dispatch({ type: SET_NEW_CUSTOMER, newCustomer: res.data });
+        if (
+          res.data.msg ===
+          "Sorry, a user account with this email already exists"
+        ) {
+          setErrors({ msg: "email exists already" });
+          alert("Email exists already!");
+        } else {
+          dispatch({ type: SET_NEW_CUSTOMER, newCustomer: res.data });
+        }
       })
       .catch((err) => err.msg);
   };

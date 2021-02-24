@@ -18,8 +18,9 @@ module.exports = (db) => {
 
   const getCatererByEmailandPassword = (email, password) => {
     const query = {
-      text: `SELECT id, first_name,last_name, address, phone, email, shop_name, shop_logo FROM caterers
-      WHERE email = $1 AND password = $2`,
+      text: `SELECT id, first_name,last_name, address, phone, email, shop_name, shop_logo, approved FROM caterers
+      WHERE email = $1 
+      AND password = $2`,
       values: [email, password],
     };
 
@@ -35,6 +36,7 @@ module.exports = (db) => {
     const query = {
       text: `SELECT orders.id as order,
     orders.total_amount AS amount,
+    TO_CHAR(orders.created_at :: DATE, 'dd/mm/yyyy') AS date,
     customers.name AS customer,
     customers.address AS customer_address,
     customers.phone AS customer_phone,
@@ -285,7 +287,20 @@ ORDER BY orders.pickup_time`,
       .then((result) => result.rows[0])
       .catch((err) => err);
   };
+  
+   // all delivery agents
 
+   const getDeliveryAgents = () => {
+    const query = {
+      text: `select first_name, last_name, address, phone, email
+    from delivery_agents`,
+    };
+
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
   // all caterers
 
   const getCaterers = () => {
@@ -497,11 +512,10 @@ ORDER BY orders.pickup_time`,
     shoplogo,
     shopdescription,
     latitude,
-    longitude,
-    delivery
+    longitude
   ) => {
     const query = {
-      text: `INSERT INTO caterers (first_name, last_name, address, phone, email, password, account_number, shop_name, shop_logo, shop_description,address_latitude,address_longitude,delivery) VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
+      text: `INSERT INTO caterers (first_name, last_name, address, phone, email, password, account_number, shop_name, shop_logo, shop_description,address_latitude,address_longitude) VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
       values: [
         firstname,
         lastname,
@@ -514,8 +528,7 @@ ORDER BY orders.pickup_time`,
         shoplogo,
         shopdescription,
         latitude,
-        longitude,
-        delivery,
+        longitude
       ],
     };
 
@@ -652,5 +665,6 @@ ORDER BY orders.pickup_time`,
     addFoodType,
     getDeliveryByEmail,
     addDelivery,
+    getDeliveryAgents
   };
 };

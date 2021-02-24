@@ -79,6 +79,7 @@ const TodayMenu = (props) => {
         foodPrice: price,
         status: values.status,
         quantity: values.quantity,
+        tags:values.tags
       })
       .then((res) => {
         dispatch({
@@ -105,6 +106,7 @@ const TodayMenu = (props) => {
               catererId={catererId}
               status={card.active_status}
               quantity={card.quantity}
+              tags={card.tags}
               onDelete={() => removeData(card.id)}
               onUpdate={updateData}
             />

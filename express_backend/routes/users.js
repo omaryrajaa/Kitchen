@@ -32,7 +32,22 @@ module.exports = ({
   addFoodType,
   getDeliveryByEmail,
   addDelivery,
+  getDeliveryAgents
 }) => {
+
+  //*********************Delivery Agents List******************************************************* */
+
+   // all delivery agents
+
+   router.get("/delivery-agents", function (req, res) {
+    getDeliveryAgents()
+      .then((deliveryAgents) => res.json(deliveryAgents))
+      .catch((err) =>
+        res.json({
+          error: err.message,
+        })
+      );
+  });
   //********************************************Landing Page*************************************** */
 
   // all caterers
@@ -155,7 +170,15 @@ module.exports = ({
     const { email, password } = req.body;
 
     getCustomerByEmailandPassword(email, password)
-      .then((customers) => res.json(customers))
+      .then((customers) => {
+        if (!customers) {
+          res.json({
+            msg: "The email address or password is incorrect. Please try agan.",
+          });
+        } else {
+        res.json(customers)}
+        }
+      )
       .catch((err) =>
         res.json({
           error: err.message,
@@ -168,7 +191,16 @@ module.exports = ({
     const { email, password } = req.body;
 
     getCatererByEmailandPassword(email, password)
-      .then((caterers) => res.json(caterers))
+      .then((caterers) => {
+        if (!caterers) {
+          res.json({
+            msg: "The email address or password is incorrect. Please try agan.",
+          });
+        } else {
+        res.json(caterers)}
+        }
+      )
+        
       .catch((err) =>
         res.json({
           error: err.message,

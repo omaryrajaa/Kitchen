@@ -19,6 +19,8 @@ export const SET_CATERER_ITEMS_COUNT = "SET_CATERER_ITEMS_COUNT";
 export const SET_CATERER_ITEMS_TODAY_COUNT = "SET_CATERER_ITEMS_TODAY_COUNT";
 export const SET_NEW_CUSTOMER = "SET_NEW_CUSTOMER";
 export const SET_CUSTOMER_ORDER = "SET_CUSTOMER_ORDER";
+export const SET_DELIVERY_AGENTS = "SET_DELIVERY_AGENTS";
+
 
 const dataReducer = (state, action) => {
   switch (action.type) {
@@ -145,6 +147,12 @@ const dataReducer = (state, action) => {
       return {
         ...state,
         dishesByName: action.dishesByName,
+        loading: false,
+      };
+      case SET_DELIVERY_AGENTS:
+      return {
+        ...state,
+        deliveryAgents: action.deliveryAgents,
         loading: false,
       };
 
