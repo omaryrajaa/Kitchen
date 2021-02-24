@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import {
   GoogleMap,
-  LoadScript,
   Marker,
   Circle,
   InfoWindow,
 } from "@react-google-maps/api";
+import {
+  Link,
+} from "@material-ui/core";
 import "./MapContainer.css";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { SET_CATERERS } from "../../reducers/dataReducer";
 import useApplicationData from "../../hooks/useApplicationData";
 
 const MapContainer = (props) => {
+  const history = useHistory();
+
   const { state, dispatch } = useApplicationData();
 
   // for infoWindow
@@ -269,12 +273,19 @@ const MapContainer = (props) => {
       .then((response) => {
         if (mounted) dispatch({ type: SET_CATERERS, caterers: response.data });
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => err.message);
 
     return function cleanup() {
       mounted = false;
     };
   }, []);
+
+  const handleShopLink = (event) => {
+    event.preventDefault();
+    history.push(`/caterer-dishes/${selected.shop_name}`, {
+      params: { id: selected.id },
+    });
+  };
 
   return (
     <GoogleMap
@@ -316,20 +327,18 @@ const MapContainer = (props) => {
           onCloseClick={() => setSelected({})}
         >
           <div className="infoWindow" style={{ opacity: 1 }}>
+          <Link onClick={(event) => handleShopLink(event)}>
             <div
               className="message"
-              style={{ fontWeight: "bold", color: "red" }}
+              style={{ fontWeight: "bold", color: "black" }}
             >
               {selected.shop_name}
             </div>
+            </Link>
             <div className="name-store">
               <img className="store-img" alt="" src={selected.shop_logo}></img>
               <h2>{selected.name}</h2>
             </div>
-            <span className="store-des">
-              <LocationOnIcon className="icon-ui" />
-              {selected.address}
-            </span>
             <span className="store-des">
               <PhoneIcon className="icon-ui" />
               {selected.phone}

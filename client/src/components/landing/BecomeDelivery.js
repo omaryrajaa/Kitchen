@@ -75,11 +75,7 @@ const BecomeDelivery = (props) => {
               <Typography variant="h4" component="h4" gutterBottom>
                 Become A Delivery Partener
               </Typography>
-              <Typography variant="h6">
-                Do you enjoy cooking for others? Are you the go-to person to
-                cook for family events and holidays? You can turn that passion
-                into profits by starting a home-based catering business.
-              </Typography>
+
 
               <Button
                 type="submit"

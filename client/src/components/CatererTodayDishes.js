@@ -75,7 +75,7 @@ const CatererTodayDishes = () => {
       .then((result) =>
         dispatch({ type: SET_CATERER_REVIEWS, catererReviews: result.data })
       )
-      .catch((err) => console.log(err.message));
+      .catch((err) => err.message);
   };
 
   const renderBody = () => {
@@ -96,6 +96,7 @@ const CatererTodayDishes = () => {
             shop_name={card.shop_name}
             shop_description={card.shop_description}
             shop_logo={card.shop_logo}
+            phone={card.phone}
           />
         </Grid>
       );

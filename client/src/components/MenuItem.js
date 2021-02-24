@@ -53,6 +53,7 @@ const MenuItem = (props) => {
   const [review, setReview] = useState("");
   const [rate, setRate] = React.useState(0);
   const { authTokens, setAuthTokens } = useAuth();
+
   const { state, dispatch } = useApplicationData();
 
   const customerId = authTokens ? authTokens.id : 0;

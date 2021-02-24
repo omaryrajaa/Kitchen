@@ -65,6 +65,7 @@ const ItemsByCategory = () => {
                     shop_name={tile.shop_name}
                     shop_logo={tile.shop_logo}
                     shop_description={tile.shop_description}
+                    phone={tile.phone}
                   ></MenuItem>
                 </GridListTile>
               ))}

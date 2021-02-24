@@ -110,6 +110,8 @@ const CatererInfo = (props) => {
               </Typography>
               <Typography variant="h6">About the Shop</Typography>
               <Typography variant="body1">{props.shop_description}</Typography>
+              <br></br>
+              <Typography variant="body1">Phone Number: {props.phone}</Typography>
             </div>
             <CardActions className={classes.linkAction}>
               <Button onClick={handleClickOpen}>Message Shop</Button>

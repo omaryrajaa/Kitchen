@@ -183,6 +183,7 @@ const MenuItemDetails = (props) => {
         <Box border="ridge">
           <CatererInfo
             catererId={item.catererId}
+            phone={item.phone}
             shop_name={item.shop_name}
             shop_logo={item.shop_logo}
             shop_description={item.shop_description}
