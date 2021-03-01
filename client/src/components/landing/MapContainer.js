@@ -17,7 +17,6 @@ import useApplicationData from "../../hooks/useApplicationData";
 
 const MapContainer = (props) => {
   const history = useHistory();
-
   const { state, dispatch } = useApplicationData();
 
   // for infoWindow
@@ -35,10 +34,6 @@ const MapContainer = (props) => {
     sessionStorage.setItem(key, JSON.stringify(location));
   };
 
-  const getToSessionStorage = (key) => {
-    return sessionStorage.getItem(key);
-  };
-
   const successLocation = (position) => {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
@@ -48,7 +43,6 @@ const MapContainer = (props) => {
       longitude: longitude,
     });
 
-    let user_position = getToSessionStorage("user_location");
   };
 
   // getting geoLocation of users with HTML API 'geolocation'
@@ -79,9 +73,10 @@ const MapContainer = (props) => {
   };
   getLocation();
   // To get the user location set in sessionStorage
-  const userLocation = JSON.parse(sessionStorage.getItem("user_location"));
-  const latitudeLocation = userLocation["latitude"];
-  const longitudeLocation = userLocation["longitude"];
+    const userLocation = JSON.parse(sessionStorage.getItem("user_location") || '{}');
+    const latitudeLocation = userLocation["latitude"];
+    const longitudeLocation = userLocation["longitude"];
+
 
   const mapStyles = {
     height: "50vh",
